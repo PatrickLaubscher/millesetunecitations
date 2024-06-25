@@ -22,6 +22,7 @@ export class CitationListComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.citationService.loadList();
     this.getAllCitations();
   }
 

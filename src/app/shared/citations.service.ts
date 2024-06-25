@@ -9,26 +9,32 @@ export class CitationsService {
 
   citationsList:Citation[] = [];
 
-  display:boolean = true;
-
   loadList() {
-    localStorage.setItem('citations_list', JSON.stringify(CitationsList));
+    if(sessionStorage.getItem('initial_display') === null) {
+      sessionStorage.setItem('citations_list', JSON.stringify(CitationsList));
+      sessionStorage.setItem('initial_display', JSON.stringify('true'));
+      location.reload();
+    }
+  }
+
+  reloadList() {
+    sessionStorage.setItem('citations_list', JSON.stringify(CitationsList));
     location.reload();
   }
 
   fetchAll() {
-    this.citationsList = JSON.parse(localStorage.getItem('citations_list') || '');
+    this.citationsList = JSON.parse(sessionStorage.getItem('citations_list') || '');
     return this.citationsList;
   }
 
   deleteCitationList() {
     this.citationsList = [];
-    localStorage.removeItem('citations_list');
+    sessionStorage.removeItem('citations_list');
     location.reload();
   }
 
   deleteCitation(citation:Citation) {
-    this.citationsList = JSON.parse(localStorage.getItem('citations_list') || '');
+    this.citationsList = JSON.parse(sessionStorage.getItem('citations_list') || '');
 
     const index = this.citationsList.findIndex(o => o.id === citation.id);
 
@@ -41,14 +47,14 @@ export class CitationsService {
   }
 
   saveCitation():void {
-    localStorage.setItem('citations_list', JSON.stringify(this.citationsList));
+    sessionStorage.setItem('citations_list', JSON.stringify(this.citationsList));
   }
 
   addCitation(content:string, author:string) {
 
     let existingCitation:Citation[] = this.fetchAll();
     this.citationsList = [];
-    localStorage.removeItem('citations_list');
+    sessionStorage.removeItem('citations_list');
 
     let newCitation:Citation = {
       id : this.citationsList.length + 1,
