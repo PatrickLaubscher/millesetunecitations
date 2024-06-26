@@ -42,7 +42,6 @@ export class CitationsService {
       this.citationsList.splice(index, 1);
       this.saveCitation();
     }
-    console.log(this.citationsList);
     location.reload();
   }
 
@@ -50,16 +49,16 @@ export class CitationsService {
     sessionStorage.setItem('citations_list', JSON.stringify(this.citationsList));
   }
 
-  addCitation(content:string, author:string) {
+  addCitation(citation:{ content: string, author: string }) {
 
     let existingCitation:Citation[] = this.fetchAll();
     this.citationsList = [];
     sessionStorage.removeItem('citations_list');
 
     let newCitation:Citation = {
-      id : this.citationsList.length + 1,
-      content : content,
-      author : author
+      id : existingCitation.length + 1,
+      content : citation.content,
+      author : citation.author
     }
 
     existingCitation.push(newCitation);
