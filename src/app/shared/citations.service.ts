@@ -51,18 +51,18 @@ export class CitationsService {
 
   addCitation(citation:{ content: string, author: string }) {
 
-    let existingCitation:Citation[] = this.fetchAll();
+    let existingCitationList:Citation[] = this.fetchAll();
     this.citationsList = [];
     sessionStorage.removeItem('citations_list');
 
     let newCitation:Citation = {
-      id : existingCitation.length + 1,
+      id : existingCitationList.length + 1,
       content : citation.content,
       author : citation.author
     }
 
-    existingCitation.push(newCitation);
-    this.citationsList = existingCitation;
+    existingCitationList.push(newCitation);
+    this.citationsList = existingCitationList;
     this.saveCitation();
   }
 
